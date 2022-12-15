@@ -121,3 +121,48 @@ let shuffle_test = function
 
 let shuffle n =
   shuffle_test n (* TODO: changer en une implementation complete *)
+
+
+
+(***********************Auxiliary functions************************)
+
+let grather_than (x: int*int) (y: int*int) = match x,y with
+   | (a,b),(u,v) -> a <= u;;
+
+let add_pair (x: int*int) (y: int*int) = match x,y with
+   | (a,b),(u,v) -> 
+      if b >= v then (((c+21)mod 55) , b-v) 
+      else (((c+21)mod 55) , (b-v)+randmax)
+
+let rec 
+
+let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) = match l with
+   | [] -> (x,y)
+   | e::l -> split_lists (e::y) x l;; 
+
+
+let rec merge_lists (x: (int*int) list) (y: (int*int) list) = match x,y with
+   | [],l -> l
+   | l,[] -> l
+   | e::rest1, f::rest2 -> 
+      if (grather_than e f) then e::(merge_lists rest1 rest2) 
+      else f::(merge_lists rest1 rest2);;
+
+(*
+let rec sort_merge lst : (int*int) list = match list with
+   | [] -> lst
+   | [] -> 
+*)
+
+(***********************Main funcitons************************)
+
+(**
+let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i with
+   | 0 -> pair_list
+   | i -> (
+      match pair_list with
+         | [] -> pair_init (i-1) graine ()
+         | [_] -> pair_init (i-1) graine ()
+         | a::b::rest -> pair_init (i-1) graine ([])
+   )
+*)
