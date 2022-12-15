@@ -119,6 +119,7 @@ let shuffle_test = function
   | _ -> failwith "shuffle : unsupported number (TODO)"
 
 
+
 let shuffle n =
    (*let init_first_pair = pair_init 55 n [] in*)
    shuffle_test n (* TODO: changer en une implementation complete *)
@@ -150,7 +151,17 @@ let distribution_fifo list_tup = match list_tup with
 
 
 (** Partie d*)
+let differences_fifo pair = match pair with
+   | (f1, f2) -> 
+      let (val1, f1_t) = Fifo.pop f1_t in 
+      let (val2, f2_t) = Fifo.pop f2_t in 
+      let difference_t = 
+         if (val1 >= val2) then (val1 - val2) 
+         else (val1 - val2)+randmax in
+      (Fifo.push val2 f1_t, Fifo.push difference_t f2_t), difference_t;;
 
+      
+let array_init = List.init 52 (fun a -> a);;
 
 (***********************Auxiliary functions************************)
 
