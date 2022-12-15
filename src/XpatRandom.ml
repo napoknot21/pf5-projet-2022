@@ -123,6 +123,33 @@ let shuffle n =
    (*let init_first_pair = pair_init 55 n [] in*)
    shuffle_test n (* TODO: changer en une implementation complete *)
 
+(***********************Main funcitons************************)
+
+(** Partie a*)
+let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i with
+   | 0 -> pair_list
+   | i -> (
+      match pair_list with
+         | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
+         | [a] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
+         | a::b::rest -> pair_init (i-1) graine (append_list [(add_pair b a)] pair_list)
+   );;
+
+
+(** Partie b*)
+let sep_list (pair_list : a' list) =
+   let pair_list_sorted = sort_merge pair_list in
+   let part_list = List.parition(fun (x,y) -> x < 24) pair_list_sorted in
+   match part_list with
+      | (a,b) -> (List.split(a), List.split (b));;
+
+
+(** Partie c*)
+let distribution_fifo list_tup = match list_tup with
+   | ((a,b), (u,v)) -> (Fifo.of_list (Fifo.rev v), Fifo.of_list (Fifo.rev b));;
+
+
+(** Partie d*)
 
 
 (***********************Auxiliary functions************************)
@@ -130,40 +157,50 @@ let shuffle n =
 let grather_than (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> a <= u;;
 
+
 let add_pair (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> 
       if b >= v then (((u+21)mod 55) , b-v) 
       else (((u+21)mod 55) , (b-v)+randmax);;
 
+
+let pop_from_list (list: a' list) (i: int) = 
+   let rec aux_remove lst lst_tmp j = match lst with
+      | [] -> -1, lst_tmp
+      | e::rest ->
+         if (i = 0) then e,(rev_list (append_list lst_tmp rest))
+         else aux_remove rest (e::lst_tmp) (j-1)
+   in aux_remove list [] i;;
+
+
 let rec append_list (x: (int*int) list) (y: (int*int) list) = match x with
    | [] -> y
    | e::rest -> e::(append_list rest y)
+
+
+let rec rev_list (lst: a' list) = 
+   let rec aux list_origin list_rev = match list_origin with
+      | [] -> list_rev
+      | e::rest -> aux rest (e::list_rev)
+   in aux lst [];;
+
 
 let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) = match l with
    | [] -> (x,y)
    | e::l -> split_lists (e::y) x l;; 
 
-let rec merge_lists (x: (int*int) list) (y: (int*int) list) = match x,y with
+
+let rec lists_merge (x: (int*int) list) (y: (int*int) list) = match x,y with
    | [],l -> l
    | l,[] -> l
    | e::rest1, f::rest2 -> 
-      if (grather_than e f) then e::(merge_lists rest1 rest2) 
-      else f::(merge_lists rest1 rest2);;
+      if (grather_than e f) then e::(lists_merge rest1 rest2) 
+      else f::(lists_merge rest1 rest2);;
 
-(*
-let rec sort_merge lst : (int*int) list = match list with
+
+let rec sort_merge (lst : a' list) = match list with
    | [] -> lst
-   | [] -> 
-*)
+   | [a] -> lst
+   | _ -> let lst1, lst2 = split_lists [] [] lst in
+         lists_merge (sort_merge lst1) (sort_merge lst2);;
 
-
-(***********************Main funcitons************************)
-
-let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i with
-   | 0 -> pair_list
-   | i -> (
-      match pair_list with
-         | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
-         | [_] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
-         | a::b::rest -> pair_init (i-1) graine (append_list [(add_pair b a)] pair_list)
-   )
