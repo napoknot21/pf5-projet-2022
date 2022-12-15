@@ -120,7 +120,8 @@ let shuffle_test = function
 
 
 let shuffle n =
-  shuffle_test n (* TODO: changer en une implementation complete *)
+   (*let init_first_pair = pair_init 55 n [] in*)
+   shuffle_test n (* TODO: changer en une implementation complete *)
 
 
 
@@ -155,15 +156,14 @@ let rec sort_merge lst : (int*int) list = match list with
    | [] -> 
 *)
 
+
 (***********************Main funcitons************************)
 
-(**
 let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i with
    | 0 -> pair_list
    | i -> (
       match pair_list with
-         | [] -> pair_init (i-1) graine ()
-         | [_] -> pair_init (i-1) graine ()
+         | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
+         | [_] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
          | a::b::rest -> pair_init (i-1) graine (append_list [(add_pair b a)] pair_list)
    )
-*)
