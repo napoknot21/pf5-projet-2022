@@ -9,8 +9,21 @@
 *)
 
 type 'a t = 'a list (* head of list = first out *)
-let empty = []
-let push x q = q@[x]
-let pop q = match q with x::q' -> x, q' | [] -> raise Not_found
-let of_list l = List.rev l
+
+let empty = [];;
+
+let push x q = match q with 
+  | empty -> empty
+  | _ -> x::q;;
+
+let pop q = match q with 
+  | x::q' -> x, q' 
+  | [] -> raise Not_found
+
+let of_list l =
+  let rec aux list_origin list_rev = match list_origin with
+    | [] -> list_rev
+    | e::rest -> aux rest (e::list_rev)
+  in aux l [];;  
+
 let to_list l = l
