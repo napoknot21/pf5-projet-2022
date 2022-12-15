@@ -131,15 +131,16 @@ let grather_than (x: int*int) (y: int*int) = match x,y with
 
 let add_pair (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> 
-      if b >= v then (((c+21)mod 55) , b-v) 
-      else (((c+21)mod 55) , (b-v)+randmax)
+      if b >= v then (((u+21)mod 55) , b-v) 
+      else (((u+21)mod 55) , (b-v)+randmax);;
 
-let rec 
+let rec append_list (x: (int*int) list) (y: (int*int) list) = match x with
+   | [] -> y
+   | e::rest -> e::(append_list rest y)
 
 let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) = match l with
    | [] -> (x,y)
    | e::l -> split_lists (e::y) x l;; 
-
 
 let rec merge_lists (x: (int*int) list) (y: (int*int) list) = match x,y with
    | [],l -> l
@@ -163,6 +164,6 @@ let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i 
       match pair_list with
          | [] -> pair_init (i-1) graine ()
          | [_] -> pair_init (i-1) graine ()
-         | a::b::rest -> pair_init (i-1) graine ([])
+         | a::b::rest -> pair_init (i-1) graine (append_list [(add_pair b a)] pair_list)
    )
 *)
