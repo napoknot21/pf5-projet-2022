@@ -12,9 +12,7 @@ type 'a t = 'a list (* head of list = first out *)
 
 let empty = [];;
 
-let push x q = match q with 
-  | empty -> empty
-  | _ -> x::q;;
+let push x q = x::q;;
 
 let pop q = match q with 
   | x::q' -> x, q' 
