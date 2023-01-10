@@ -21,6 +21,6 @@
 5. Organisation du travail
 	* MARTIN AVILA Charly : 
 		* fonctions dans XpatRandom.ml
-		* fichier Piles.ml
+		* fichier Pile.ml
 	* PUSKAS Matyas : 
-		* fichier Rules.ml
+		* fichier Regles.ml
