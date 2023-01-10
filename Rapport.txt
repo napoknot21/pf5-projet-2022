@@ -1,2 +1,18 @@
-PUSKAS Matyas, @puskas, 21959916
-MARTIN AVILA Charly, @martinav, 22004983
+1. Identifiants
+	PUSKAS Matyas, @puskas, 21959916
+	MARTIN AVILA Charly, @martinav, 22004983
+
+2. Fonctionnalités
+	* création d'une permutation à partir d'une graine
+
+3. Compilation et exécution	
+	* compilation : ```dune build```
+	* exécution : ```./run```
+
+4. Découpage modulaire
+	* Rules.ml : contient des informations sur les règles
+		* types de règles du jeu
+
+5. Organisation du travail
+	* MARTIN AVILA Charly : fonctions dans XpatRandom.ml
+	* PUSKAS Matyas : fichier Rules.ml
