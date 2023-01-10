@@ -11,8 +11,20 @@
 
 4. Découpage modulaire
 	* Rules.ml : contient des informations sur les règles
-		* types de règles du jeu
+		* type des règles d'un jeu
+	* Pile.ml: implémentation d'une pile en tant qu'objet immutable à base de listes ocaml 
+		* SubStack p n : retourne une liste contenant les n premiers éléments de p et une liste contanant le reste
+		* pushBack x p : ajout d'un élément x au dessus de la pile p
+		* pushFront x p : ajout d'un élément x en dessous de la pile p
+		* pushList l p : ajout de la liste l au dessus de la pile p
 
 5. Organisation du travail
-	* MARTIN AVILA Charly : fonctions dans XpatRandom.ml
-	* PUSKAS Matyas : fichier Rules.ml
+	* MARTIN AVILA Charly : 
+		* fonctions dans XpatRandom.ml
+		* fichier Piles.ml
+	* PUSKAS Matyas : 
+<<<<<<< Updated upstream
+		* fichier Rules.ml
+=======
+		* fichier Rules.ml
+>>>>>>> Stashed changes
