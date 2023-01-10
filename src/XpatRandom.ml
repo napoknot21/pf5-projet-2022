@@ -130,7 +130,7 @@ let grather_than (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> a <= u;;
 
 
-let add_pair (x: int*int) (y: int*int) = match x,y with
+let diff_pair (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> 
       if b >= v then (((u+21)mod 55) , b-v) 
       else (((u+21)mod 55) , (b-v)+randmax);;
@@ -187,7 +187,7 @@ let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i 
       match pair_list with
          | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
          | [a] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
-         | a::b::rest -> pair_init (i-1) graine (append_list [(add_pair b a)] pair_list)
+         | a::b::rest -> pair_init (i-1) graine (append_list [(diff_pair b a)] pair_list)
    );;
 
 
