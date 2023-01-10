@@ -125,8 +125,8 @@ let shuffle n =
 
 (***********************Auxiliary functions************************)
 
-let grather_than (x: int*int) (y: int*int) = match x,y with
-   | (a,b),(u,v) -> a <= u;;
+let greater_than (x: int*int) (y: int*int) = match x,y with
+   | (a,b),(u,v) -> a >= u;;
 
 
 let diff_pair (x: int*int) (y: int*int) = match x,y with
@@ -162,16 +162,14 @@ let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) 
 
 
 let rec lists_merge (x: (int*int) list) (y: (int*int) list) = match x,y with
-   | [],l -> l
-   | l,[] -> l
-   | e::rest1, f::rest2 -> 
-      if (grather_than e f) then e::(lists_merge rest1 rest2) 
-      else f::(lists_merge rest1 rest2);;
+   | [],l | l,[] -> l
+   | h1::tail1, h2::tail2 -> 
+      if (greater_than h1 h2) then h1::(lists_merge tail1 (h2::tail2)) 
+      else h2::(lists_merge (h1::tail1) tail2);;
 
-
-let rec sort_merge lst  = match lst with
-   | [] -> lst
-   | [a] -> lst
+(**return a int*int list rev*)
+let rec sort_merge (lst: (int*int) list)  = match lst with
+   | [] | [_] -> lst
    | _ -> let lst1, lst2 = split_lists [] [] lst in
          lists_merge (sort_merge lst1) (sort_merge lst2);;
 
