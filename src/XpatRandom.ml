@@ -118,13 +118,9 @@ let shuffle_test = function
   | _ -> failwith "shuffle : unsupported number (TODO)"
 
 
-
-let shuffle n =
-   (*let init_first_pair = pair_init 55 n [] in*)
-   shuffle_test n (* TODO: changer en une implementation complete *)
-
 (***********************Auxiliary functions************************)
 
+(** if the pair (a,b) is greater than (u,v) <=> a >= u*)
 let greater_than (x: int*int) (y: int*int) = match x,y with
    | (a,b),(u,v) -> a >= u;;
 
@@ -146,15 +142,6 @@ let rev_list (lst : (int*int) list) =
       | h::tail -> aux tail (h::list_rev)
    in aux lst [];;
 
-(**
-let pop_from_list list (i: int) = 
-   let rec aux_remove lst lst_tmp j = match lst with
-      | [] -> -1, lst_tmp
-      | h::tail ->
-         if (i = 0) then h,(rev_list (append_list lst_tmp tail))
-         else aux_remove rest (h::lst_tmp) (j-1)
-   in aux_remove list [] i;;
-*)
 
 let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) = match l with
    | [] -> (x,y)
@@ -167,11 +154,20 @@ let rec lists_merge (x: (int*int) list) (y: (int*int) list) = match x,y with
       if (greater_than h1 h2) then h1::(lists_merge tail1 (h2::tail2)) 
       else h2::(lists_merge (h1::tail1) tail2);;
 
+
 (**return a int*int list rev*)
 let rec sort_merge (lst: (int*int) list)  = match lst with
    | [] | [_] -> lst
    | _ -> let lst1, lst2 = split_lists [] [] lst in
          lists_merge (sort_merge lst1) (sort_merge lst2);;
+
+
+let popList list (i : int) =
+   let rec aux lst lstNew  (index : int) = match lst with
+      | [] -> -1,lst
+      | h::tail -> if index = 0 then h,List.rev lstNew @ tail
+         else aux tail (h::lstNew) (index-1)
+   in aux list [] i;;
 
 
 (***********************Main funcitons************************)
@@ -183,14 +179,14 @@ let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i 
       match pair_list with
          | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
          | [a] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
-         | a::b::rest -> pair_init (i-1) graine (append_list [(diff_pair b a)] pair_list)
+         | h1::h2::tail -> pair_init (i-1) graine (append_list [(diff_pair h2 h1)] pair_list)
    );;
 
 
 (** Partie b*)
-let sep_list pair_list =
+let sep_list (pair_list : (int*int) list) =
    let pair_list_sorted = sort_merge pair_list in
-   let part_list = List.partition(fun (x,y) -> x < 24) pair_list_sorted in
+   let part_list = List.partition (fun (x,y) -> x < 24) pair_list_sorted in
    match part_list with
       | (a,b) -> (List.split(a), List.split (b));;
 
@@ -210,6 +206,29 @@ let differences_fifo pair = match pair with
          else (val1 - val2)+randmax in
       (Fifo.push val2 f1_t, Fifo.push difference_t f2_t), difference_t;;
 
-      
+
+(** partie e*)
+let rec dessin_fifo pair_fifo rep = match rep, (differences_fifo pair_fifo) with
+   | 0, (fifos, _) -> fifos
+   | n, (fifos, _) -> dessin_fifo fifos (n-1);; 
+
+
+let rec final_dessin pair_fifo rep perm array_init = match rep with
+   | 0 -> perm
+   | n -> (
+      match (differences_fifo pair_fifo) with
+         | (fifos, diff) ->  (
+            match (popList array_init (reduce diff rep)) with
+               | (h, res_list) -> final_dessin (fifos) (rep-1) (h::perm) (res_list)
+            )   
+      )      ;;
+            
+
 let array_init = List.init 52 (fun a -> a);;
 
+let shuffle n =
+   let first_p = pair_init 55 n [] in
+   let sep_l = sep_list first_p in
+   let fifo_p = distribution_fifo sep_l in
+   let fifo_shuf = dessin_fifo fifo_p 164 in 
+   final_dessin (fifo_shuf) (52) (array_init);;
