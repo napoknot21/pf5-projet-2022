@@ -1,8 +1,8 @@
 (** Regles des jeux *)
 
 type game = Fc | Mo | Sh | Bd (** FreeCell, Midnigth O. , Seahaven, Baker's D.*)
-type order = Upper | Under 
-type nbColumns = int
+
+type sec_color = Altern | Same
 
 type alternating = bool
 
