@@ -23,8 +23,4 @@
 		* fonctions dans XpatRandom.ml
 		* fichier Piles.ml
 	* PUSKAS Matyas : 
-<<<<<<< Updated upstream
 		* fichier Rules.ml
-=======
-		* fichier Rules.ml
->>>>>>> Stashed changes
