@@ -36,8 +36,7 @@ let make_regle nb_reg nb_cols lst_cards order first_card depot =
   else { nb_reg; nb_cols; lst_cards; order ; first_card; depot };;
 
 
-(** checks for color/types cards*)
-
+(** Auxiliary checks for color/types cards*)
 let is_red_card card = let r,s = card in (s = Coeur || s = Carreau);;
 
 let is_black_card card = let r,s = card in (s = Trefle || s = Pique);;
@@ -47,6 +46,7 @@ let is_same_type card_a card_b =
 
 let get_rank card = let r,s = card in r;;
 
+((** Main functions *))
 let check_order_color order_c card_a card_b = match order_c with
   | Altern -> 
       (is_red_card card_a && is_black_card card_b) || (is_black_card card_a && is_red_card card_a)
@@ -57,6 +57,5 @@ let check_order_color order_c card_a card_b = match order_c with
   | All -> true;;
 
 let check_order_numbers order_nb card_a card_b = match order_nb with
-  | Ascend -> get_rank card_a = get_rank card_b + 1
-  | Descend -> get_rank card_a + 1 = get_rank card_b;;
- 
+  | Ascend -> (get_rank card_a = get_rank card_b + 1)
+  | Descend -> (get_rank card_a + 1 = get_rank card_b);;
