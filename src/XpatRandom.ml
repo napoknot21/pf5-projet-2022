@@ -6,7 +6,6 @@
     (hence without duplicates).
 
 *)
-
 (* The numbers manipulated below will be in [0..randmax[ *)
 let randmax = 1_000_000_000
 
@@ -136,31 +135,30 @@ let diff_pair (x: int*int) (y: int*int) = match x,y with
       else (((u+21)mod 55) , (b-v)+randmax);;
 
 
-let rec append_list x y = match x with
+let rec append_list (x : (int*int) list) (y: (int*int) list) = match x with
    | [] -> y
-   | e::rest -> e::(append_list rest y);;
+   | h::tail -> h::(append_list tail y);;
 
 
-
-let  rev_list lst = 
+let rev_list (lst : (int*int) list) = 
    let rec aux list_origin list_rev = match list_origin with
       | [] -> list_rev
-      | e::rest -> aux rest (e::list_rev)
+      | h::tail -> aux tail (h::list_rev)
    in aux lst [];;
 
-
+(**
 let pop_from_list list (i: int) = 
    let rec aux_remove lst lst_tmp j = match lst with
       | [] -> -1, lst_tmp
-      | e::rest ->
-         if (i = 0) then e,(rev_list (append_list lst_tmp rest))
-         else aux_remove rest (e::lst_tmp) (j-1)
+      | h::tail ->
+         if (i = 0) then h,(rev_list (append_list lst_tmp tail))
+         else aux_remove rest (h::lst_tmp) (j-1)
    in aux_remove list [] i;;
-
+*)
 
 let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) = match l with
    | [] -> (x,y)
-   | e::l -> split_lists (e::y) x l;; 
+   | h::tail -> split_lists (h::y) x tail;; 
 
 
 let rec lists_merge (x: (int*int) list) (y: (int*int) list) = match x,y with
