@@ -20,12 +20,12 @@ type regle = {
   nb_reg : int; (* number of registers *)
   nb_cols : int; (* nombre des cartes par colonnes *)
   lst_cards : int list;  (* list de cartes par colonne *)
-  order = order_colors * order_numbers; (* Si l'ordre est croissant avec les cartes intercalées, etc*)
-  first_card : head_list (* Type de colone => premiere card est un roi, n'importe quelle carte ou Aucune*)
-  depot = int;
+  order : order_colors * order_numbers; (* Si l'ordre est croissant avec les cartes intercalées, etc*)
+  first_card : head_list; (* Type de colone => premiere card est un roi, n'importe quelle carte ou Aucune*)
+  depot : int
 }
 
-let rec aux_length lst_cards = function
+let rec aux_length lst_cards = match lst_cards with
   | [] -> 0
   | h::tail -> 1 + aux_length tail;;
 
@@ -42,11 +42,11 @@ let is_red_card card = let r,s = card in (s = Coeur || s = Carreau);;
 let is_black_card card = let r,s = card in (s = Trefle || s = Pique);;
 
 let is_same_type card_a card_b = 
-  let r1,s1 = card_1 and r2,s2 = card_b in s1 = s2;;
+  let r1,s1 = card_a and r2,s2 = card_b in s1 = s2;;
 
 let get_rank card = let r,s = card in r;;
 
-((** Main functions *))
+(** Main functions *)
 let check_order_color order_c card_a card_b = match order_c with
   | Altern -> 
       (is_red_card card_a && is_black_card card_b) || (is_black_card card_a && is_red_card card_a)

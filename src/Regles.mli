@@ -15,12 +15,12 @@ type regle = {
   nb_reg : int; (* number of registers *)
   nb_cols : int; (* nombre des cartes par colonnes *)
   lst_cards : int list;  (* list de cartes par colonne *)
-  order = order_colors * order_numbers; (* Si l'ordre est croissant avec les cartes intercalées, etc*)
-  first_card : head_list (* Type de colone => premiere card est un roi, n'importe quelle carte ou Aucune*)
-  depot = int;
+  order : order_colors * order_numbers; (* Si l'ordre est croissant avec les cartes intercalées, etc*)
+  first_card : head_list; (* Type de colone => premiere card est un roi, n'importe quelle carte ou Aucune*)
+  depot : int
 }
 
-val make_regle : int -> int -> int list -> order_colors * order_numbers -> head_list -> int -> registers -> regle
+val make_regle : int -> int -> int list -> order_colors * order_numbers -> head_list -> int -> regle
 
 val check_order_color : order_colors * order_numbers -> Card.card -> Card.card -> bool
 

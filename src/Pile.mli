@@ -1,4 +1,5 @@
 (** Structure de la pile *)
+type 'a t
 
 (** Empty stack *)
 val empty : 'a list
@@ -31,4 +32,4 @@ val of_list : 'a list -> 'a list
 val to_list : 'a list -> 'a list
 
 (** Convert a stack into a string representation *)
-val to_string : 'a list -> string
+val to_string : ('a -> string) -> 'a list -> string

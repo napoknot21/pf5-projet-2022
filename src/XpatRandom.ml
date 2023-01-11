@@ -193,7 +193,7 @@ let sep_list (pair_list : (int*int) list) =
 
 (** Partie c*)
 let distribution_fifo list_tup = match list_tup with
-   | ((a,b), (u,v)) -> (Fifo.of_list (List.rev v), Fifo.of_list (List.rev b));;
+   | ((a,b), (u,v)) -> (Fifo.of_list (v), Fifo.of_list (b));;
 
 
 (** Partie d*)
