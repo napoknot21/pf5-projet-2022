@@ -2,9 +2,6 @@
 
 open Card
 
-type game = Fc | Mo | Sh | Bd 
-(* FreeCell, Midnigth O. , Seahaven, Baker's D.*)
-
 type order_colors = Altern | EqualColor | EqualType | All 
 (* On va distinguer les cas ou les cartes auront la même couleur et 
    si les cartes doivent imperativement être de même type (EqualType)*)

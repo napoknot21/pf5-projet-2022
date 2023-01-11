@@ -5,5 +5,7 @@
     The output list is of size 52, and contains all numbers in 0..51
     (hence without duplicates).
 *)
+val randmax : int
 
 val shuffle : int -> int list
+

@@ -1,6 +1,3 @@
-type game = Fc | Mo | Sh | Bd 
-(* FreeCell, Midnigth O. , Seahaven, Baker's D.*)
-
 type order_colors = Altern | EqualColor | EqualType | All 
 (* On va distinguer les cas ou les cartes auront la même couleur et 
    si les cartes doivent imperativement être de même type (EqualType)*)
@@ -22,6 +19,6 @@ type regle = {
 
 val make_regle : int -> int -> int list -> order_colors * order_numbers -> head_list -> int -> regle
 
-val check_order_color : order_colors * order_numbers -> Card.card -> Card.card -> bool
+val check_order_color : order_colors -> Card.card -> Card.card -> bool
 
-val check_order_numbers : order_colors * order_numbers -> Card.card -> Card.card -> bool
+val check_order_numbers : order_numbers -> Card.card -> Card.card -> bool
