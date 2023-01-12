@@ -7,6 +7,7 @@
 
 *)
 (* The numbers manipulated below will be in [0..randmax[ *)
+open Fifo
 let randmax = 1_000_000_000
 
 (* Converting an integer n in [0..randmax[ to an integer in [0..limit[ *)
@@ -151,8 +152,8 @@ let rec split_lists (x: (int*int) list) (y: (int*int) list) (l: (int*int) list) 
 let rec lists_merge (x: (int*int) list) (y: (int*int) list) = match x,y with
    | [],l | l,[] -> l
    | h1::tail1, h2::tail2 -> 
-      if (greater_than h1 h2) then h1::(lists_merge tail1 (h2::tail2)) 
-      else h2::(lists_merge (h1::tail1) tail2);;
+      if (greater_than h1 h2) then h1 :: lists_merge tail1 y 
+      else h2 :: lists_merge x tail2;;
 
 
 (**return a int*int list rev*)
@@ -177,9 +178,9 @@ let rec pair_init (i : int) (graine: int) (pair_list: (int*int) list) = match i 
    | 0 -> pair_list
    | i -> (
       match pair_list with
-         | [] -> pair_init (i-1) graine (append_list [(0, graine)] pair_list)
-         | [a] -> pair_init (i-1) graine (append_list [(21, 1)] pair_list)
-         | h1::h2::tail -> pair_init (i-1) graine (append_list [(diff_pair h2 h1)] pair_list)
+         | [] -> pair_init (i-1) graine ([(0, graine)] @ pair_list)
+         | [a] -> pair_init (i-1) graine ([(21, 1)] @ pair_list)
+         | h1::h2::tail -> pair_init (i-1) graine ([(diff_pair h2 h1)] @ pair_list)
    );;
 
 
@@ -231,4 +232,4 @@ let shuffle n =
    let sep_l = sep_list first_p in
    let fifo_p = distribution_fifo sep_l in
    let fifo_shuf = dessin_fifo fifo_p 164 in 
-   final_dessin (fifo_shuf) (52) (array_init);;
+   final_dessin (fifo_shuf) (52) [] (array_init);;

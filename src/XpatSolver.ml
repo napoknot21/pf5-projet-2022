@@ -2,12 +2,18 @@
 open XpatLib
 
 type game = Freecell | Seahaven | Midnight | Baker
+type exit_code = Success | Error of int | Insoluble
 
 type mode =
   | Check of string (* filename of a solution file to check *)
   | Search of string (* filename where to write the solution *)
 
-type config = { mutable game : game; mutable seed: int; mutable mode: mode }
+type config = { 
+  mutable game : game;
+  mutable seed: int;
+  mutable mode: mode
+}
+
 let config = { game = Freecell; seed = 1; mode = Search "" }
 
 let getgame = function
@@ -31,6 +37,14 @@ let set_game_seed name =
                       "FreeCell Seahaven MidnightOil BakersDozen")
 
 (* TODO : La fonction suivante est à adapter et continuer *)
+(*
+let make_regles config = match config.game with
+  | FreeCell -> Regles.make_regle 8 4 4 [7;6;7;6;7;6;7;6] (Regles.Altern, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
+  | Seahaven -> Regles.make_regle 10 4 4 [5;5;5;5;5;5;5;5;5;5] (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
+  | Midnight -> Regles.make_regle 18 0 4 [3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;1] (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
+  | Baker -> Regles.make_regle 13 0 4 [4;4;4;4;4;4;4;4;4;4;4;4;4] (Regles.All, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
+
+*)
 
 let treat_game conf =
   let permut = XpatRandom.shuffle conf.seed in
@@ -45,10 +59,14 @@ let treat_game conf =
 
 let main () =
   Arg.parse
-    [("-check", String (fun filename -> config.mode <- Check filename),
+    [
+      ("-check", String (fun filename -> config.mode <- Check filename),
         "<filename>:\tValidate a solution file");
-     ("-search", String (fun filename -> config.mode <- Search filename),
-        "<filename>:\tSearch a solution and write it to a solution file")]
+     
+      ("-search", String (fun filename -> config.mode <- Search filename),
+        "<filename>:\tSearch a solution and write it to a solution file")
+    
+        ]
     set_game_seed (* pour les arguments seuls, sans option devant *)
     "XpatSolver <game>.<number> : search solution for Xpat2 game <number>";
   treat_game config

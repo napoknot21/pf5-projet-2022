@@ -9,3 +9,6 @@ val randmax : int
 
 val shuffle : int -> int list
 
+val diff_pair : (int*int) -> (int*int) -> (int*int)
+
+val pair_init : int -> int -> (int*int) list -> (int*int) list
