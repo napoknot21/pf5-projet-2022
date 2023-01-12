@@ -9,7 +9,7 @@ type order_colors = Altern | EqualColor | EqualType | All
 type order_numbers = Ascend | Descend
 (* L'ordre croissant ou décroissant*)
 
-type head_list = King | All | H_None
+type head_list = As | King | All | H_None
 (* Si la colonne (vide) doit peut être rempilie par un Roi, n'importe quelle carte, ou pas du tout *)
 
 type regle = {
@@ -19,7 +19,8 @@ type regle = {
   nb_card_by_col : int list; (* tableaux d'entiers contennant la taille courante de chaque colone *)
   order_col : order_colors * order_numbers; (* type d'ordre pour les piles cartes => hardcode to _ * Descend *)
   order_dep : order_colors * order_numbers; (* type d'ordre pour les piles depot => hardcode to EqualType * Ascend *)
-  first_card : head_list; (* cas colone vide => premiere card est un roi, n'importe quelle carte ou Aucune*)
+  first_card_col : head_list;
+  first_card_dep : head_list (* cas colone vide => premiere card est un roi, n'importe quelle carte ou Aucune*)
 }
 
 
@@ -28,10 +29,10 @@ let rec aux_length = function
   | h::tail -> 1 + aux_length tail;;
 
 (** Constructor *)
-let make_regle nb_cols nb_reg nb_dep nb_card_by_col order_col order_dep first_card = 
+let make_regle nb_cols nb_reg nb_dep nb_card_by_col order_col order_dep first_card_col first_card_dep = 
   if (aux_length nb_card_by_col) <> nb_cols 
   then raise (Invalid_argument "Make_regle: nb_cols <> length of lst_cards")
-  else { nb_cols; nb_reg; nb_dep; nb_card_by_col; order_col; order_dep; first_card };;
+  else { nb_cols; nb_reg; nb_dep; nb_card_by_col; order_col; order_dep; first_card_col; first_card_dep };;
 
 
 (** Auxiliary checks for color/types cards*)
@@ -64,7 +65,14 @@ let check_col_by_rule (rule : regle) (card_a : Card.card) (card_b : Card.card) =
   | (order_c, order_n) -> check_order_color order_c card_a card_b && check_order_numbers order_n card_a card_b;;
 
 
-let check_move_to_empty_col (rule : regle) (card : Card.card) = match rule.first_card with
+let check_move_to_empty_col (rule : regle) (card : Card.card) = match rule.first_card_col with
+  | As -> let r,s = card in (r = 1)
+  | King -> let r,s = card in (r = 13)
+  | All -> true
+  | H_None -> false
+
+let check_move_to_empty_dep (rule : regle) (card : Card.card) = match rule.first_card_dep with
+  | As -> let r,s = card in (r = 1)
   | King -> let r,s = card in (r = 13)
   | All -> true
   | H_None -> false
