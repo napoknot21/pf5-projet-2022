@@ -39,10 +39,10 @@ let set_game_seed name =
 (* TODO : La fonction suivante est à adapter et continuer *)
 (*
 let make_regles config = match config.game with
-  | FreeCell -> Regles.make_regle 8 4 4 [7;6;7;6;7;6;7;6] (Regles.Altern, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
-  | Seahaven -> Regles.make_regle 10 4 4 [5;5;5;5;5;5;5;5;5;5] (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
-  | Midnight -> Regles.make_regle 18 0 4 [3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;3;1] (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
-  | Baker -> Regles.make_regle 13 0 4 [4;4;4;4;4;4;4;4;4;4;4;4;4] (Regles.All, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
+  | FreeCell -> Regles.make_regle 8 4 4 (List.init 8 (fun x -> if x mod 2 = 0 then 7 else 6)) (Regles.Altern, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
+  | Seahaven -> Regles.make_regle 10 4 4 (List.init 10 (fun x -> 5)) (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.King Regles.As
+  | Midnight -> Regles.make_regle 18 0 4 (List.init 18 (fun x -> if x = 17 then 1 else 3)) (Regles.EqualColor, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
+  | Baker -> Regles.make_regle 13 0 4 (List.init 13 (fun x->4)) (Regles.All, Regles.Descend) (Regles.EqualType, Regles.Ascend) Regles.H_None Regles.As
 
 *)
 
